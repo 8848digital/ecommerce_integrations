@@ -52,7 +52,7 @@ def update_inventory_on_unicommerce(client=None, force=False):
 	for warehouse in warehouses:
 		if warehouse['shelf']:
 			return shelf_bulk_update(warehouse,settings)
-		warehouse = warehouse.erpnext_warehouse
+		warehouse = warehouse['erpnext_warehouse']
 		is_group_warehouse = cint(frappe.db.get_value("Warehouse", warehouse, "is_group"))
 
 		if is_group_warehouse:
