@@ -58,7 +58,7 @@ def update_inventory_on_unicommerce(client=None, force=False):
 				warehouse=warehouse, integration=MODULE_NAME
 			)
 		else:
-			erpnext_inventory = get_inventory_levels(warehouses=(warehouse,), integration=MODULE_NAME)4
+			erpnext_inventory = get_inventory_levels(warehouses=(warehouse,), integration=MODULE_NAME)
 		frappe.log_error(str(erpnext_inventory), "inventory")
 		if not erpnext_inventory:
 			continue
