@@ -39,7 +39,6 @@ def update_inventory_on_unicommerce(client=None, force=False):
 	# get configured warehouses
 	# warehouses = settings.get_erpnext_warehouses()
 	warehouses = settings.get_warehouses()
-	frappe.log_error(str(warehouses),"warehouse")
 	wh_to_facility_map = settings.get_erpnext_to_integration_wh_mapping()
 
 	if client is None:
@@ -59,7 +58,8 @@ def update_inventory_on_unicommerce(client=None, force=False):
 				warehouse=warehouse, integration=MODULE_NAME
 			)
 		else:
-			erpnext_inventory = get_inventory_levels(warehouses=(warehouse,), integration=MODULE_NAME)
+			erpnext_inventory = get_inventory_levels(warehouses=(warehouse,), integration=MODULE_NAME)4
+		frappe.log_error(str(erpnext_inventory), "inventory")
 		if not erpnext_inventory:
 			continue
 		erpnext_inventory = erpnext_inventory[:MAX_INVENTORY_UPDATE_IN_REQUEST]
