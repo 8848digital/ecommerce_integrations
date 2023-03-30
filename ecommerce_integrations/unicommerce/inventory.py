@@ -82,7 +82,7 @@ def update_inventory_on_unicommerce(client=None, force=False):
 				ecom_item = sku_to_ecom_item_map[sku]
 				# Any one warehouse sync failure should be considered failure
 				success_map[ecom_item] = success_map[ecom_item] and status
-
+	frappe.log_error(_update_inventory_sync_status(success_map, inventory_synced_on))
 	_update_inventory_sync_status(success_map, inventory_synced_on)
 
 
