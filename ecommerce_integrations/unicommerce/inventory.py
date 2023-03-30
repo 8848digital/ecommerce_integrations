@@ -39,7 +39,6 @@ def update_inventory_on_unicommerce(client=None, force=False):
 	# get configured warehouses
 	# warehouses = settings.get_erpnext_warehouses()
 	warehouses = settings.get_warehouses()
-	frappe.msgprint(str(warehouses))
 	wh_to_facility_map = settings.get_erpnext_to_integration_wh_mapping()
 
 	if client is None:
@@ -54,14 +53,13 @@ def update_inventory_on_unicommerce(client=None, force=False):
 			return shelf_bulk_update(warehouse,settings)
 		warehouse = warehouse['erpnext_warehouse']
 		is_group_warehouse = cint(frappe.db.get_value("Warehouse", warehouse, "is_group"))
-
+		frappe.msgprint(str(warehouse))
 		if is_group_warehouse:
 			erpnext_inventory = get_inventory_levels_of_group_warehouse(
 				warehouse=warehouse, integration=MODULE_NAME
 			)
 		else:
 			erpnext_inventory = get_inventory_levels(warehouses=(warehouse,), integration=MODULE_NAME)
-		frappe.log_error(erpnext_inventory, "inventory")
 		if not erpnext_inventory:
 			continue
 
