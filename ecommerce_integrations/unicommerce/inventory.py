@@ -26,7 +26,7 @@ def update_inventory_on_unicommerce(client=None, force=False):
 
 	force=True ignores the set frequency.
 	"""
-	settings = frappe.get_cached_doc(SETTINGS_DOCTYPE)
+	settings = frappe.get_doc("Unicommerce Settings")
 	frappe.log_error(settings, "settings")
 	if not settings.is_enabled() or not settings.enable_inventory_sync:
 		return
