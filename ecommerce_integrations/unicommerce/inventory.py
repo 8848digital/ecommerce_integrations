@@ -38,10 +38,8 @@ def update_inventory_on_unicommerce(client=None, force=False):
 
 	# get configured warehouses
 	# warehouses = settings.get_erpnext_warehouses()
-	test = get_warehouse(settings)
-	frappe.msgprint(str("test"))
-	frappe.log_error(test, "test")
 	warehouses = settings.get_warehouses()
+	frappe.msgprint(str(warehouses))
 	wh_to_facility_map = settings.get_erpnext_to_integration_wh_mapping()
 
 	if client is None:
