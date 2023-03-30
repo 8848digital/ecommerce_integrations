@@ -52,8 +52,8 @@ def update_inventory_on_unicommerce(client=None, force=False):
 		if warehouse['shelf']:
 			return shelf_bulk_update(warehouse,settings)
 		warehouse = warehouse['erpnext_warehouse']
+		frappe.error_log(str(warehouse),"warehouse")
 		is_group_warehouse = cint(frappe.db.get_value("Warehouse", warehouse, "is_group"))
-		frappe.msgprint(str(warehouse))
 		if is_group_warehouse:
 			erpnext_inventory = get_inventory_levels_of_group_warehouse(
 				warehouse=warehouse, integration=MODULE_NAME
