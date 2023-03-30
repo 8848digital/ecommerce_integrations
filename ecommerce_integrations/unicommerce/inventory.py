@@ -70,7 +70,7 @@ def update_inventory_on_unicommerce(client=None, force=False):
 		response, status = client.bulk_inventory_update(
 			facility_code=facility_code, inventory_map=inventory_map
 		)
-		frappe.log_error("response", str([response,response.json(), status]))
+		#frappe.log_error("response", str([response,response.json(), status]))
 		if status:
 			# update success_map
 			sku_to_ecom_item_map = {d.integration_item_code: d.ecom_item for d in erpnext_inventory}
