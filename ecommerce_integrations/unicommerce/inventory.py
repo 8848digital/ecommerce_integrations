@@ -39,6 +39,7 @@ def update_inventory_on_unicommerce(client=None, force=False):
 	# get configured warehouses
 	# warehouses = settings.get_erpnext_warehouses()
 	warehouses = settings.get_warehouses()
+	frappe.log_error(str(warehouses),"warehouse")
 	wh_to_facility_map = settings.get_erpnext_to_integration_wh_mapping()
 
 	if client is None:
@@ -52,7 +53,6 @@ def update_inventory_on_unicommerce(client=None, force=False):
 		if warehouse['shelf']:
 			return shelf_bulk_update(warehouse,settings)
 		warehouse = warehouse['erpnext_warehouse']
-		frappe.error_log(str(warehouse),"warehouse")
 		is_group_warehouse = cint(frappe.db.get_value("Warehouse", warehouse, "is_group"))
 		if is_group_warehouse:
 			erpnext_inventory = get_inventory_levels_of_group_warehouse(
@@ -62,7 +62,6 @@ def update_inventory_on_unicommerce(client=None, force=False):
 			erpnext_inventory = get_inventory_levels(warehouses=(warehouse,), integration=MODULE_NAME)
 		if not erpnext_inventory:
 			continue
-
 		erpnext_inventory = erpnext_inventory[:MAX_INVENTORY_UPDATE_IN_REQUEST]
 
 		# TODO: consider reserved qty on both platforms.
