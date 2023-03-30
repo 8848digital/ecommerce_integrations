@@ -66,12 +66,11 @@ def update_inventory_on_unicommerce(client=None, force=False):
 		# TODO: consider reserved qty on both platforms.
 		inventory_map = {d.integration_item_code: cint(d.actual_qty) for d in erpnext_inventory}
 		facility_code = wh_to_facility_map[warehouse]
-
+		frappe.log_error(facility_code, "facility_code")
 		response, status = client.bulk_inventory_update(
 			facility_code=facility_code, inventory_map=inventory_map
 		)
 		if status:
-			frappe.log_error("test")
 			# update success_map
 			sku_to_ecom_item_map = {d.integration_item_code: d.ecom_item for d in erpnext_inventory}
 			for sku, status in response.items():
