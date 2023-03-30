@@ -27,7 +27,6 @@ def update_inventory_on_unicommerce(client=None, force=False):
 	force=True ignores the set frequency.
 	"""
 	settings = frappe.get_doc("Unicommerce Settings")
-	frappe.log_error(settings, "settings")
 	if not settings.is_enabled() or not settings.enable_inventory_sync:
 		return
 
@@ -39,6 +38,9 @@ def update_inventory_on_unicommerce(client=None, force=False):
 
 	# get configured warehouses
 	# warehouses = settings.get_erpnext_warehouses()
+	test = get_warehouse(settings)
+	frappe.msgprint(str("test"))
+	frappe.log_error(test, "test")
 	warehouses = settings.get_warehouses()
 	wh_to_facility_map = settings.get_erpnext_to_integration_wh_mapping()
 
