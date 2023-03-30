@@ -59,13 +59,13 @@ def update_inventory_on_unicommerce(client=None, force=False):
 			)
 		else:
 			erpnext_inventory = get_inventory_levels(warehouses=(warehouse,), integration=MODULE_NAME)
-		frappe.log_error(str(erpnext_inventory), "inventory")
 		if not erpnext_inventory:
 			continue
 		erpnext_inventory = erpnext_inventory[:MAX_INVENTORY_UPDATE_IN_REQUEST]
 
 		# TODO: consider reserved qty on both platforms.
 		inventory_map = {d.integration_item_code: cint(d.actual_qty) for d in erpnext_inventory}
+		frappe.log_error(str(inventory_map), "inventory_map")
 		facility_code = wh_to_facility_map[warehouse]
 
 		response, status = client.bulk_inventory_update(
