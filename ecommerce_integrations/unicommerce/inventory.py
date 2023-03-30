@@ -50,6 +50,7 @@ def update_inventory_on_unicommerce(client=None, force=False):
 	inventory_synced_on = now()
 
 	for warehouse in warehouses:
+		frappe.log_error(warehouse, "warehouse")
 		if warehouse['shelf']:
 			return shelf_bulk_update(warehouse,settings)
 		warehouse = warehouse['erpnext_warehouse']
