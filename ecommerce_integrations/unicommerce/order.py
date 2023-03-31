@@ -36,7 +36,7 @@ def sync_new_orders(client: UnicommerceAPIClient = None, force=False):
 	settings = frappe.get_cached_doc(SETTINGS_DOCTYPE)
 	if not settings.is_enabled():
 		return
-
+	frappe.log_error("test",str(settings))
 	# check if need to run based on configured sync frequency.
 	# Note: This also updates last_order_sync if function runs.
 	if not force and not need_to_run(SETTINGS_DOCTYPE, "order_sync_frequency", "last_order_sync"):
