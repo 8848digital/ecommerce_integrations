@@ -53,7 +53,7 @@ def sync_new_orders(client: UnicommerceAPIClient = None, force=False):
 
 	for order in new_orders:
 		sales_order = create_order(order, client=client)
-
+		frappe.log_error("sales_order",str(sales_order))
 		if settings.only_sync_completed_orders:
 			_create_sales_invoices(order, sales_order, client)
 
@@ -136,16 +136,20 @@ def create_order(payload: UnicommerceOrder, request_id: Optional[str] = None, cl
 
 	frappe.set_user("Administrator")
 	frappe.flags.request_id = request_id
+	
 	try:
 		_sync_order_items(order, client=client)
 		customer = sync_customer(order)
 		order = _create_order(order, customer)
+		frappe.log_error("orderr", str(order))
 	except Exception as e:
 		create_unicommerce_log(status="Error", exception=e, rollback=True)
 		frappe.flags.request_id = None
+		frappe.log_error("error", str(order))
 	else:
 		create_unicommerce_log(status="Success")
 		frappe.flags.request_id = None
+		frappe.log_error("success", str(order))
 		return order
 
 
