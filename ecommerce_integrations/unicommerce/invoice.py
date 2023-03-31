@@ -220,12 +220,11 @@ def _validate_wh_allocation(warehouse_allocation: WHAllocation):
 	expected_item_qty = {}
 	for item in so_item_data:
 		expected_item_qty.setdefault(item.sales_order, {})[item.item_code] = item.qty
-
 	for order, item_details in warehouse_allocation.items():
 		item_wise_qty = defaultdict(int)
 		for item in item_details:
 			item_wise_qty[item["item_code"]] += 1
-
+		frappe.msgprint(str(item_wise_qty.items()))
 		# group item details for total qty
 		for item_code, total_qty in item_wise_qty.items():
 			expected_qty = expected_item_qty.get(order, {}).get(item_code)
