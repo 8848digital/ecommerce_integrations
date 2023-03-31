@@ -75,10 +75,11 @@ def _get_new_orders(
 	for order in uni_orders:
 		if order["channel"] not in configured_channels:
 			continue
-		if frappe.db.exists("Sales Order", {ORDER_CODE_FIELD: order["code"]}):
-			continue
+		#if frappe.db.exists("Sales Order", {ORDER_CODE_FIELD: order["code"]}):
+		#	continue
 
 		order = client.get_sales_order(order_code=order["code"])
+		frappe.log_error("order", str(order))
 		if order:
 			yield order
 
