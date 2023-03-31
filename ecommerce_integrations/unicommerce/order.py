@@ -64,7 +64,6 @@ def _get_new_orders(
 ) -> Optional[Iterator[UnicommerceOrder]]:
 
 	"""Search new sales order from unicommerce."""
-	frappe.log_error("test","test")
 	updated_since = 24 * 60  # minutes
 	uni_orders = client.search_sales_order(updated_since=updated_since, status=status)
 	frappe.log_error("uni_orders", str(uni_orders))
@@ -79,9 +78,9 @@ def _get_new_orders(
 	for order in uni_orders:
 		if order["channel"] not in configured_channels:
 			continue
-		frappe.log_error("so",str(frappe.db.exists("Sales Order", {ORDER_CODE_FIELD: order["code"]}))
-		if frappe.db.exists("Sales Order", {ORDER_CODE_FIELD: order["code"]}):
-			continue
+		#frappe.log_error("so",str(frappe.db.exists("Sales Order", {ORDER_CODE_FIELD: order["code"]}))
+		#if frappe.db.exists("Sales Order", {ORDER_CODE_FIELD: order["code"]}):
+		#	continue
 
 		order = client.get_sales_order(order_code=order["code"])
 		frappe.log_error("order", str(order))
