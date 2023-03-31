@@ -82,7 +82,7 @@ def _get_new_orders(
 
 		order = client.get_sales_order(order_code=order["code"])
 		frappe.log_error("order", str(order))
-		if order:
+	if order:
 			yield order
 
 
