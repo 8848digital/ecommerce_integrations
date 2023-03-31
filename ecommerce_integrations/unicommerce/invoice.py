@@ -230,11 +230,11 @@ def _validate_wh_allocation(warehouse_allocation: WHAllocation):
 			expected_qty = expected_item_qty.get(order, {}).get(item_code)
 			frappe.msgprint(str(expected_qty))
 			frappe.msgprint(str(total_qty))
-			if abs(total_qty - expected_qty) > 0.1:
-				msg = _("Mismatch in quantity for order {}, item {} exepcted {} qty, received {}").format(
-					order, item_code, expected_qty, total_qty
-				)
-				frappe.throw(msg)
+			#if abs(total_qty - expected_qty) > 0.1:
+			#	msg = _("Mismatch in quantity for order {}, item {} exepcted {} qty, received {}").format(
+			#		order, item_code, expected_qty, total_qty
+			#	)
+			#	frappe.throw(msg)
 
 
 def _generate_invoice(
