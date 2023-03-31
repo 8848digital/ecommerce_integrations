@@ -229,6 +229,8 @@ def _validate_wh_allocation(warehouse_allocation: WHAllocation):
 		# group item details for total qty
 		for item_code, total_qty in item_wise_qty.items():
 			expected_qty = expected_item_qty.get(order, {}).get(item_code)
+			frappe.msgprint(str(expected_qty))
+			frappe.msgprint(str(total_qty))
 			if abs(total_qty - expected_qty) > 0.1:
 				msg = _("Mismatch in quantity for order {}, item {} exepcted {} qty, received {}").format(
 					order, item_code, expected_qty, total_qty
