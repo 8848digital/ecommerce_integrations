@@ -49,7 +49,7 @@ def sync_new_orders(client: UnicommerceAPIClient = None, force=False):
 	status = "COMPLETE" if settings.only_sync_completed_orders else None
 
 	new_orders = _get_new_orders(client, status=status)
-	
+
 	if new_orders is None:
 		return
 
@@ -65,13 +65,14 @@ def _get_new_orders(
 ) -> Optional[Iterator[UnicommerceOrder]]:
 
 	"""Search new sales order from unicommerce."""
-
+	frappe.log_error("test","test")
 	updated_since = 24 * 60  # minutes
 	uni_orders = client.search_sales_order(updated_since=updated_since, status=status)
 	configured_channels = {
 		c.channel_id
 		for c in frappe.get_all("Unicommerce Channel", filters={"enabled": 1}, fields="channel_id")
 	}
+	frappe.log_error("uni_orders", str(uni_orders))
 	if uni_orders is None:
 		return
 	frappe.log_error("uni_orders", str(uni_orders))
