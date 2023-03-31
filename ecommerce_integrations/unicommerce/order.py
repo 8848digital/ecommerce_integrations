@@ -73,9 +73,9 @@ def _get_new_orders(
 	if uni_orders is None:
 		return
 	for order in uni_orders:
-		frappe.log_error("channel",str(order['channel]))
+		frappe.log_error("channel",str(order))
 		if order["channel"] not in configured_channels:
-			frappe.log_error("channel_order",str(order['channel]))
+			frappe.log_error("channel_order",str(order))
 			continue
 		#if frappe.db.exists("Sales Order", {ORDER_CODE_FIELD: order["code"]}):
 		#	continue
