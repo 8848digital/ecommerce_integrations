@@ -34,7 +34,6 @@ UnicommerceOrder = NewType("UnicommerceOrder", Dict[str, Any])
 def sync_new_orders(client: UnicommerceAPIClient = None, force=False):
 	"""This is called from a scheduled job and syncs all new orders from last synced time."""
 	settings = frappe.get_cached_doc(SETTINGS_DOCTYPE)
-	frappe.log_error("settings","settings")
 	if not settings.is_enabled():
 		return
 
@@ -68,6 +67,7 @@ def _get_new_orders(
 	frappe.log_error("test","test")
 	updated_since = 24 * 60  # minutes
 	uni_orders = client.search_sales_order(updated_since=updated_since, status=status)
+	frappe.log_error("uni_orders", str(uni_orders))
 	configured_channels = {
 		c.channel_id
 		for c in frappe.get_all("Unicommerce Channel", filters={"enabled": 1}, fields="channel_id")
