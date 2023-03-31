@@ -47,6 +47,7 @@ def sync_new_orders(client: UnicommerceAPIClient = None, force=False):
 
 	status = "COMPLETE" if settings.only_sync_completed_orders else None
 	new_orders = _get_new_orders(client, status=status)
+	frappe.log_error("test", str(new_orders))
 	if new_orders is None:
 		return
 
