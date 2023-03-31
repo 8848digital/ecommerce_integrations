@@ -34,7 +34,7 @@ UnicommerceOrder = NewType("UnicommerceOrder", Dict[str, Any])
 def sync_new_orders(client: UnicommerceAPIClient = None, force=False):
 	"""This is called from a scheduled job and syncs all new orders from last synced time."""
 	settings = frappe.get_cached_doc(SETTINGS_DOCTYPE)
-
+	frappe.log_error("settings","settings")
 	if not settings.is_enabled():
 		return
 
@@ -49,7 +49,7 @@ def sync_new_orders(client: UnicommerceAPIClient = None, force=False):
 	status = "COMPLETE" if settings.only_sync_completed_orders else None
 
 	new_orders = _get_new_orders(client, status=status)
-
+	frappe.log_error("orderss",str(new_orders))
 	if new_orders is None:
 		return
 
