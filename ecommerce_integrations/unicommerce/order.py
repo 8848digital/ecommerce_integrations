@@ -49,7 +49,7 @@ def sync_new_orders(client: UnicommerceAPIClient = None, force=False):
 	status = "COMPLETE" if settings.only_sync_completed_orders else None
 
 	new_orders = _get_new_orders(client, status=status)
-
+	
 	if new_orders is None:
 		return
 
@@ -74,14 +74,16 @@ def _get_new_orders(
 	}
 	if uni_orders is None:
 		return
-
+	frappe.log_error("uni_orders", str(uni_orders))
 	for order in uni_orders:
 		if order["channel"] not in configured_channels:
 			continue
+		frappe.log_error("so",str(frappe.db.exists("Sales Order", {ORDER_CODE_FIELD: order["code"]}))
 		if frappe.db.exists("Sales Order", {ORDER_CODE_FIELD: order["code"]}):
 			continue
 
 		order = client.get_sales_order(order_code=order["code"])
+		frappe.log_error("order", str(order))
 		if order:
 			yield order
 
