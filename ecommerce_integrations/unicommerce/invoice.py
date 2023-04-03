@@ -453,11 +453,11 @@ def _get_line_items(
 	warehouse: str,
 	so_code: str,
 	cost_center: str,
-	warehouse_allocation: List[ItemWHAlloc],
+	warehouse_allocations: List[ItemWHAlloc],
 ) -> List[Dict[str, Any]]:
 	""" Invoice items can be different and are consolidated, hence recomputing is required """
 	si_items = []
-	for item, wh_alloc in zip(line_items, warehouse_allocation):
+	for item, wh_alloc in zip(line_items, warehouse_allocations):
 		item_code = ecommerce_item.get_erpnext_item_code(
 			integration=MODULE_NAME, integration_item_code=item["itemSku"]
 		)
