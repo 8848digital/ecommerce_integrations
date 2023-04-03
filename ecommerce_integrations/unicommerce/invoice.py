@@ -506,7 +506,8 @@ def _assign_wh_and_so_row(line_items, warehouse_allocation: List[ItemWHAlloc], s
 		item["so_detail"] = wh_alloc["sales_order_row"]
 		item["warehouse"] = wh_alloc["warehouse"]
 		item["batch_no"] = wh_alloc.get("batch_no")
-
+		item["shelf"] = wh_alloc["shelf"]
+	frappe.msgprint(str(line_items))
 	return line_items
 
 

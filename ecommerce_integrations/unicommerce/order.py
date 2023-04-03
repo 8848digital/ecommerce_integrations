@@ -36,7 +36,6 @@ def sync_new_orders(client: UnicommerceAPIClient = None, force=False):
 	settings = frappe.get_cached_doc(SETTINGS_DOCTYPE)
 	if not settings.is_enabled():
 		return
-	frappe.log_error("test",str(settings))
 	# check if need to run based on configured sync frequency.
 	# Note: This also updates last_order_sync if function runs.
 	if not force and not need_to_run(SETTINGS_DOCTYPE, "order_sync_frequency", "last_order_sync"):
@@ -47,13 +46,11 @@ def sync_new_orders(client: UnicommerceAPIClient = None, force=False):
 
 	status = "COMPLETE" if settings.only_sync_completed_orders else None
 	new_orders = _get_new_orders(client, status=status)
-	frappe.log_error("new_order", str(new_orders))
 	if new_orders is None:
 		return
 
 	for order in new_orders:
 		sales_order = create_order(order, client=client)
-		frappe.log_error("sales_order",str(sales_order))
 		if settings.only_sync_completed_orders:
 			_create_sales_invoices(order, sales_order, client)
 
@@ -65,7 +62,6 @@ def _get_new_orders(
 	"""Search new sales order from unicommerce."""
 	updated_since = 24 * 60  # minutes
 	uni_orders = client.search_sales_order(updated_since=updated_since, status=status)
-	frappe.log_error("uni_orders", str(uni_orders))
 	configured_channels = {
 		c.channel_id
 		for c in frappe.get_all("Unicommerce Channel", filters={"enabled": 1}, fields="channel_id")
@@ -73,17 +69,14 @@ def _get_new_orders(
 	if uni_orders is None:
 		return
 	for order in uni_orders:
-		frappe.log_error("channel",str(order))
 		if order["channel"] not in configured_channels:
-			frappe.log_error("channel_order",str(order))
 			continue
-		#if frappe.db.exists("Sales Order", {ORDER_CODE_FIELD: order["code"]}):
-		#	continue
+		if frappe.db.exists("Sales Order", {ORDER_CODE_FIELD: order["code"]}):
+			continue
 
 		order = client.get_sales_order(order_code=order["code"])
-		frappe.log_error("order", str(order))
 	if order:
-			yield order
+		yield order
 
 
 def _create_sales_invoices(unicommerce_order, sales_order, client: UnicommerceAPIClient):
@@ -143,15 +136,12 @@ def create_order(payload: UnicommerceOrder, request_id: Optional[str] = None, cl
 		_sync_order_items(order, client=client)
 		customer = sync_customer(order)
 		order = _create_order(order, customer)
-		frappe.log_error("orderr", str(order))
 	except Exception as e:
 		create_unicommerce_log(status="Error", exception=e, rollback=True)
 		frappe.flags.request_id = None
-		frappe.log_error("error", str(order))
 	else:
 		create_unicommerce_log(status="Success")
 		frappe.flags.request_id = None
-		frappe.log_error("success", str(order))
 		return order
 
 
