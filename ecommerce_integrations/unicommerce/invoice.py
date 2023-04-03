@@ -473,7 +473,7 @@ def _get_line_items(
 					"warehouse": warehouse,
 					"cost_center": cost_center,
 					"sales_order": so_code,
-					"shelf":"G-10"
+					"shelf":"DEFAULT"
 				}
 			)
 	frappe.log_error("get_warehouse_allocation", str(warehouse_allocations))
