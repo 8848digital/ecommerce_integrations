@@ -298,10 +298,10 @@ def _fetch_and_sync_invoice(
 		)
 		create_sales_invoice(
 			invoice_data,
+			warehouse_allocations=warehouse_allocation,
 			erpnext_so_code,
 			update_stock=1,
 			shipping_label=label_pdf,
-			warehouse_allocations=warehouse_allocation,
 			invoice_response=invoice_response,
 			so_data=so_data,
 		)
