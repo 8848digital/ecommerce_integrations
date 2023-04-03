@@ -140,11 +140,13 @@ def bulk_generate_invoices(
 	failed_orders = []
 	for so_code in sales_orders:
 		try:
+			frappe.log_error("so_code", so_code)
 			so = frappe.get_doc("Sales Order", so_code)
 			channel = so.get(CHANNEL_ID_FIELD)
 			channel_config = frappe.get_cached_doc("Unicommerce Channel", channel)
 			wh_allocation = warehouse_allocation.get(so_code) if warehouse_allocation else None
 			_generate_invoice(client, so, channel_config, warehouse_allocation=wh_allocation)
+			frappe.log_error("generate_invoice", str(_generate_invoice(client, so, channel_config, warehouse_allocation=wh_allocation)))
 		except Exception as e:
 			create_unicommerce_log(status="Failure", exception=e, rollback=True, make_new=True)
 			failed_orders.append(so_code)
@@ -228,8 +230,6 @@ def _validate_wh_allocation(warehouse_allocation: WHAllocation):
 		# group item details for total qty
 		for item_code, total_qty in item_wise_qty.items():
 			expected_qty = expected_item_qty.get(order, {}).get(item_code)
-			frappe.msgprint(str(expected_qty))
-			frappe.msgprint(str(total_qty))
 			#if abs(total_qty - expected_qty) > 0.1:
 			#	msg = _("Mismatch in quantity for order {}, item {} exepcted {} qty, received {}").format(
 			#		order, item_code, expected_qty, total_qty
