@@ -52,7 +52,7 @@ INVOICED_STATE = ["PACKED", "READY_TO_SHIP", "DISPATCHED", "MANIFESTED", "SHIPPE
 
 @frappe.whitelist()
 def generate_unicommerce_invoices(
-	sales_orders: List[SOCode], warehouse_allocation: Optional[WHAllocation] = None, item_detail
+	sales_orders: List[SOCode], warehouse_allocation: Optional[WHAllocation] = None, item_detail:List[ITEMDETAIL] =  None
 ):
 	"""Request generation of invoice to Unicommerce and sync that invoice.
 
