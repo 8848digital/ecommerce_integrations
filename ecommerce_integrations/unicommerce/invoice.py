@@ -254,7 +254,7 @@ def _generate_invoice(
 		response = None
 		if cint(channel_config.shipping_handled_by_marketplace):
 			response = client.create_invoice_and_label_by_shipping_code(
-				shipping_Wpackage_code=package, facility_code=facility_code
+				shipping_package_code=package, facility_code=facility_code
 			)
 		else:
 			response = client.create_invoice_and_assign_shipper(
