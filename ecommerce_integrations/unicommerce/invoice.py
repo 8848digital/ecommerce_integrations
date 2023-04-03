@@ -127,7 +127,7 @@ def generate_unicommerce_invoices(
 
 def bulk_generate_invoices(
 	sales_orders: List[SOCode],
-	warehouse_allocation: Optional[WHAllocation] = None,
+	warehouse_allocation: List[ItemWHAlloc],
 	request_id=None,
 	client=None,
 ):
@@ -238,8 +238,7 @@ def _validate_wh_allocation(warehouse_allocation: WHAllocation):
 
 
 def _generate_invoice(
-	client: UnicommerceAPIClient, erpnext_order, channel_config, warehouse_allocation=None
-):
+	client: UnicommerceAPIClient, erpnext_order, channel_config, warehouse_allocation: List[ItemWHAlloc]):
 	unicommerce_so_code = erpnext_order.get(ORDER_CODE_FIELD)
 
 	so_data = client.get_sales_order(unicommerce_so_code)
@@ -277,7 +276,7 @@ def _fetch_and_sync_invoice(
 	unicommerce_so_code,
 	erpnext_so_code,
 	facility_code,
-	warehouse_allocation=None,
+	warehouse_allocation: List[ItemWHAlloc],
 	invoice_responses=None,
 ):
 	"""Use the invoice generation response to fetch actual invoice and sync them to ERPNext.
@@ -314,7 +313,7 @@ def create_sales_invoice(
 	update_stock=0,
 	submit=True,
 	shipping_label=None,
-	warehouse_allocations=None,
+	warehouse_allocations: List[ItemWHAlloc],
 	invoice_response=None,
 	so_data: Optional[JsonDict] = None,
 ):
