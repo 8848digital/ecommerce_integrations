@@ -95,7 +95,7 @@ def generate_unicommerce_invoices(
 	    }
 	"""
 	for  row in item_detail:
-		frappe.log_error('item_detail', row['item_code'])
+		frappe.log_error('item_detail', row)
 
 	if isinstance(sales_orders, str):
 		sales_orders = json.loads(sales_orders)
