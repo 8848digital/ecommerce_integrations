@@ -94,7 +94,8 @@ def generate_unicommerce_invoices(
 	       ]
 	    }
 	"""
-	frappe.log_error('item_detail', item_detail)
+	for  row in item_detail:
+		frappe.log_error('item_detail', row['item_code'])
 
 	if isinstance(sales_orders, str):
 		sales_orders = json.loads(sales_orders)
@@ -396,7 +397,7 @@ def create_sales_invoice(
 		package_code=si_data.get("shippingPackageCode"),
 	)
 
-	get_warehouse_allocationitem_warehouses = {d.warehouse for d in si.items}
+	item_warehouses = {d.warehouse for d in si.items}
 	for wh in item_warehouses:
 		if update_stock and cint(frappe.db.get_value("Warehouse", wh, "is_group")):
 			# can't submit stock transaction where warehouse is group
