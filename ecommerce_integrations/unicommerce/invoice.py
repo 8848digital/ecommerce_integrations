@@ -254,7 +254,7 @@ def _generate_invoice(
 		response = None
 		if cint(channel_config.shipping_handled_by_marketplace):
 			response = client.create_invoice_and_label_by_shipping_code(
-				shipping_package_code=package, facility_code=facility_code
+				shipping_Wpackage_code=package, facility_code=facility_code
 			)
 		else:
 			response = client.create_invoice_and_assign_shipper(
@@ -322,7 +322,7 @@ def create_sales_invoice(
 
 	Sales Order is required to fetch missing order in the Sales Invoice.
 	"""
-	frappe.msgprint("wa", str(warehouse_allocations))
+	frappe.msgprint(str(warehouse_allocations))
 	if not invoice_response:
 		invoice_response = {}
 	if not so_data:
@@ -454,11 +454,11 @@ def _get_line_items(
 	warehouse: str,
 	so_code: str,
 	cost_center: str,
-	warehouse_allocations: Optional[WHAllocation] = None,
+	warehouse_allocations,
 ) -> List[Dict[str, Any]]:
 	""" Invoice items can be different and are consolidated, hence recomputing is required """
 	frappe.log_error("get_warehouse_allocation", str(warehouse_allocations))
-	for row in warehouse_allocation:
+	for row in warehouse_allocations:
 		frappe.log_error("warehouse_allocation", str(row))
 	si_items = []
 	for item in line_items:
