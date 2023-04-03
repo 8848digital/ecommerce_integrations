@@ -454,7 +454,7 @@ def _get_line_items(
 	warehouse: str,
 	so_code: str,
 	cost_center: str,
-	warehouse_allocations,
+	warehouse_allocations: List[ItemWHAlloc],
 ) -> List[Dict[str, Any]]:
 	""" Invoice items can be different and are consolidated, hence recomputing is required """
 	si_items = []
@@ -472,8 +472,7 @@ def _get_line_items(
 					"stock_uom": "Nos",
 					"warehouse": warehouse,
 					"cost_center": cost_center,
-					"sales_order": so_code,
-					"shelf":"DEFAULT"
+					"sales_order": so_code
 				}
 			)
 	frappe.log_error("get_warehouse_allocation", str(warehouse_allocations))
