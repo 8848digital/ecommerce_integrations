@@ -475,7 +475,7 @@ def _get_line_items(
 					"sales_order": so_code,
 				}
 			)
-	frappe.log_error("get_line_items", str(warehouse_allocation))
+	frappe.log_error("get_line_items", str(warehouse_allocations))
 	if warehouse_allocations:
 		return _assign_wh_and_so_row(si_items, warehouse_allocations, so_code)
 
