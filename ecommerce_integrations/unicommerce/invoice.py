@@ -396,7 +396,7 @@ def create_sales_invoice(
 		package_code=si_data.get("shippingPackageCode"),
 	)
 
-	item_warehouses = {d.warehouse for d in si.items}
+	get_warehouse_allocationitem_warehouses = {d.warehouse for d in si.items}
 	for wh in item_warehouses:
 		if update_stock and cint(frappe.db.get_value("Warehouse", wh, "is_group")):
 			# can't submit stock transaction where warehouse is group
@@ -462,18 +462,21 @@ def _get_line_items(
 			integration=MODULE_NAME, integration_item_code=item["itemSku"]
 		)
 		for __ in range(cint(item["quantity"])):
-			si_items.append(
-				{
-					"item_code": item_code,
-					# Note: Discount is already removed from this price.
-					"rate": item["unitPrice"],
-					"qty": 1,
-					"stock_uom": "Nos",
-					"warehouse": warehouse,
-					"cost_center": cost_center,
-					"sales_order": so_code
-				}
-			)
+			for row in warehouse_allocations:
+				if item_code == row['item_code']:
+					si_items.append(
+						{
+							"item_code": item_code,
+							# Note: Discount is already removed from this price.
+							"rate": item["unitPrice"],
+							"qty": 1,
+							"stock_uom": "Nos",
+							"warehouse": warehouse,
+							"cost_center": cost_center,
+							"sales_order": so_code,
+							"shelf":row['shelf']
+						}
+					)
 	frappe.log_error("get_warehouse_allocation", str(warehouse_allocations))
 	if warehouse_allocations:
 		return _assign_wh_and_so_row(si_items, warehouse_allocations, so_code)
