@@ -135,7 +135,7 @@ def bulk_generate_invoices(
 		client = UnicommerceAPIClient()
 	frappe.flags.request_id = request_id  #  for auto-picking current log
 	for row in warehouse_allocation:
-		frappe.log_error("Bulk", str(row['item_code'))
+		frappe.log_error("Bulk", row['item_code'])
 	update_invoicing_status(sales_orders, "Queued")
 
 	failed_orders = []
