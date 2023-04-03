@@ -457,9 +457,6 @@ def _get_line_items(
 	warehouse_allocations,
 ) -> List[Dict[str, Any]]:
 	""" Invoice items can be different and are consolidated, hence recomputing is required """
-	frappe.log_error("get_warehouse_allocation", str(warehouse_allocations))
-	for row in warehouse_allocations:
-		frappe.log_error("warehouse_allocation", str(row))
 	si_items = []
 	for item in line_items:
 		item_code = ecommerce_item.get_erpnext_item_code(
@@ -476,6 +473,7 @@ def _get_line_items(
 					"warehouse": warehouse,
 					"cost_center": cost_center,
 					"sales_order": so_code,
+					"shelf":"G-10"
 				}
 			)
 	frappe.log_error("get_warehouse_allocation", str(warehouse_allocations))
