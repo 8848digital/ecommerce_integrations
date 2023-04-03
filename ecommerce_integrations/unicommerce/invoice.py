@@ -322,6 +322,7 @@ def create_sales_invoice(
 
 	Sales Order is required to fetch missing order in the Sales Invoice.
 	"""
+	frappe.msgprint("wa", str(warehouse_allocations))
 	if not invoice_response:
 		invoice_response = {}
 	if not so_data:
@@ -456,7 +457,9 @@ def _get_line_items(
 	warehouse_allocations: Optional[WHAllocation] = None,
 ) -> List[Dict[str, Any]]:
 	""" Invoice items can be different and are consolidated, hence recomputing is required """
-
+	frappe.log_error("get_warehouse_allocation", str(warehouse_allocations))
+	for row in warehouse_allocation:
+		frappe.log_error("warehouse_allocation", str(row))
 	si_items = []
 	for item in line_items:
 		item_code = ecommerce_item.get_erpnext_item_code(
@@ -475,7 +478,7 @@ def _get_line_items(
 					"sales_order": so_code,
 				}
 			)
-	frappe.log_error("get_line_items", str(warehouse_allocations))
+	frappe.log_error("get_warehouse_allocation", str(warehouse_allocations))
 	if warehouse_allocations:
 		return _assign_wh_and_so_row(si_items, warehouse_allocations, so_code)
 
