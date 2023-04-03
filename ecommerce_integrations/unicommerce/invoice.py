@@ -43,6 +43,7 @@ SOCode = NewType("SOCode", str)
 # 	warehouse: str
 # 	batch_no: str
 ItemWHAlloc = Dict[str, str]
+ItemDetail = Dict[str, str]
 
 
 WHAllocation = Dict[SOCode, List[ItemWHAlloc]]
@@ -52,8 +53,7 @@ INVOICED_STATE = ["PACKED", "READY_TO_SHIP", "DISPATCHED", "MANIFESTED", "SHIPPE
 
 @frappe.whitelist()
 def generate_unicommerce_invoices(
-	sales_orders: List[SOCode], warehouse_allocation: Optional[WHAllocation] = None, item_detail:List[ITEMDETAIL] =  None
-):
+	sales_orders: List[SOCode], warehouse_allocation: Optional[WHAllocation] = None, item_detail: List[ItemDetail] = None):
 	"""Request generation of invoice to Unicommerce and sync that invoice.
 
 	1. Get shipping package details using get_sale_order
@@ -94,8 +94,7 @@ def generate_unicommerce_invoices(
 	       ]
 	    }
 	"""
-	for row in  item_detail:
-		frappe.log_error('item_detail', row['item_code'])
+	frappe.log_error('item_detail', item_detail)
 
 	if isinstance(sales_orders, str):
 		sales_orders = json.loads(sales_orders)
