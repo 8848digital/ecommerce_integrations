@@ -483,7 +483,7 @@ def _get_line_items(
 
 
 def _assign_wh_and_so_row(line_items, warehouse_allocation: List[ItemWHAlloc], so_code: str):
-	frappe.log_error("warehouse_allocation", str(warehouse_allocation)
+	frappe.log_error("warehouse_allocation", str(warehouse_allocation))
 	so_items = frappe.get_doc("Sales Order", so_code).items
 	so_item_price_map = {d.name: d.rate for d in so_items}
 
