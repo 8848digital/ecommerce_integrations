@@ -298,7 +298,7 @@ def _fetch_and_sync_invoice(
 		)
 		create_sales_invoice(
 			invoice_data,
-			warehouse_allocations=warehouse_allocation,
+			warehouse_allocation,
 			erpnext_so_code,
 			update_stock=1,
 			shipping_label=label_pdf,
@@ -309,7 +309,7 @@ def _fetch_and_sync_invoice(
 
 def create_sales_invoice(
 	si_data: JsonDict,
-	warehouse_allocations: List[ItemWHAlloc],
+	warehouse_allocation: List[ItemWHAlloc],
 	so_code: str,
 	update_stock=0,
 	submit=True,
@@ -321,7 +321,7 @@ def create_sales_invoice(
 
 	Sales Order is required to fetch missing order in the Sales Invoice.
 	"""
-	frappe.msgprint(str(warehouse_allocations))
+	frappe.msgprint(str(warehouse_allocation))
 	if not invoice_response:
 		invoice_response = {}
 	if not so_data:
@@ -364,7 +364,7 @@ def create_sales_invoice(
 
 	si = make_sales_invoice(so.name)
 	si_line_items = _get_line_items(
-		uni_line_items, warehouse, so.name, channel_config.cost_center, warehouse_allocations
+		uni_line_items, warehouse, so.name, channel_config.cost_center, warehouse_allocation
 	)
 	si.set("items", si_line_items)
 	si.set("taxes", get_taxes(uni_line_items, channel_config))
