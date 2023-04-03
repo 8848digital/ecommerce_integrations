@@ -309,11 +309,11 @@ def _fetch_and_sync_invoice(
 
 def create_sales_invoice(
 	si_data: JsonDict,
+	warehouse_allocations: List[ItemWHAlloc],
 	so_code: str,
 	update_stock=0,
 	submit=True,
 	shipping_label=None,
-	warehouse_allocations: List[ItemWHAlloc],
 	invoice_response=None,
 	so_data: Optional[JsonDict] = None,
 ):
