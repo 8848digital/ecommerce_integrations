@@ -453,8 +453,7 @@ def _get_line_items(
 	warehouse: str,
 	so_code: str,
 	cost_center: str,
-	warehouse_allocations: List[ItemWHAlloc],
-) -> List[Dict[str, Any]]:
+	warehouse_allocations: List[ItemWHAlloc]):
 	""" Invoice items can be different and are consolidated, hence recomputing is required """
 	si_items = []
 	for item, wh_alloc in zip(line_items, warehouse_allocations):
