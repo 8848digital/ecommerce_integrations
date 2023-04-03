@@ -52,7 +52,7 @@ INVOICED_STATE = ["PACKED", "READY_TO_SHIP", "DISPATCHED", "MANIFESTED", "SHIPPE
 
 @frappe.whitelist()
 def generate_unicommerce_invoices(
-	sales_orders: List[SOCode], warehouse_allocation: Optional[WHAllocation] = None
+	sales_orders: List[SOCode], warehouse_allocation: Optional[WHAllocation] = None, item_detail
 ):
 	"""Request generation of invoice to Unicommerce and sync that invoice.
 
@@ -94,6 +94,8 @@ def generate_unicommerce_invoices(
 	       ]
 	    }
 	"""
+	for row in  item_detail:
+		frappe.log_error('item_detail', row['item_code'])
 
 	if isinstance(sales_orders, str):
 		sales_orders = json.loads(sales_orders)
@@ -134,8 +136,6 @@ def bulk_generate_invoices(
 	if client is None:
 		client = UnicommerceAPIClient()
 	frappe.flags.request_id = request_id  #  for auto-picking current log
-	for row in warehouse_allocation:
-		frappe.log_error("Bulk", row['item_code'])
 	update_invoicing_status(sales_orders, "Queued")
 
 	failed_orders = []
