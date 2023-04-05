@@ -377,7 +377,7 @@ class UnicommerceAPIClient:
 		response, status = self.request(
 			endpoint="/services/rest/v1/oms/shippingManifest/createclose", body=body, headers=extra_headers,
 		)
-
+		frappe.log_error("response", str(response))
 		if status:
 			return response
 
