@@ -1,4 +1,5 @@
 import frappe
+from frappe.utils import *
 
 @frappe.whitelist()
 def get_available_printer_and_data_to_print( user,invoice_url,label_url,warehouse):

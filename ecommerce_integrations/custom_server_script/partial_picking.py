@@ -1,4 +1,5 @@
 import frappe
+import json
 
 @frappe.whitelist()
 def validate_partial_picking(so_item_list):
