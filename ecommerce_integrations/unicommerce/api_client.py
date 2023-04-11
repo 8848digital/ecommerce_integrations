@@ -358,7 +358,7 @@ class UnicommerceAPIClient:
 		shipping_method_code: str,
 		shipping_packages: List[str],
 		facility_code: str,
-		third_party_shipping: bool = True,
+		third_party_shipping: bool = False,
 	):
 		"""Create and close the shipping manifest in Unicommerce
 
