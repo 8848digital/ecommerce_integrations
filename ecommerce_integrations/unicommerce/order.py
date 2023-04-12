@@ -174,10 +174,10 @@ def _create_order(order: UnicommerceOrder, customer) -> None:
 	for row in unicommerce_settings.market_segment_mapping:
 		if order["customerGSTIN"]:
 			if row.gst_category == "Registered Regular":
-				market_segment == row.market_segment
+				market_segment = row.market_segment
 		else:
 			if row.gst_category == "Unregistered":
-				market_segment == row.market_segment
+				market_segment = row.market_segment
 	so = frappe.get_doc(
 		{
 			"doctype": "Sales Order",
