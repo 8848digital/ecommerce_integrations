@@ -197,6 +197,13 @@ def _create_order(order: UnicommerceOrder, customer) -> None:
 
 	so.flags.raw_data = order
 	so.save()
+	if order["customerGSTIN"]:
+		if so.customer_address:
+			address = frappe.get_doc("Address", so.customer_address)
+			address.gstin = order["customerGSTIN"]
+			address.gst_category = "Registered Regular"
+			address.save()
+	so.save()
 	so.submit()
 
 	if is_cancelled:
