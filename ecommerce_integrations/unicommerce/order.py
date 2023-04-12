@@ -169,7 +169,15 @@ def _create_order(order: UnicommerceOrder, customer) -> None:
 
 	facility_code = _get_facility_code(order["saleOrderItems"])
 	company_address, dispatch_address = settings.get_company_addresses(facility_code)
-
+	market_segment = ""
+	unicommerce_settings = frappe.get_doc("Unicommerce Settings")
+	for row in unicommerce_settings.market_segment_mapping:
+		if order["customerGSTIN"]:
+			if row.gst_category == "Registered Regular":
+				market_segment == row.market_segment
+		else:
+			if row.gst_category == "Unregistered":
+				market_segment == row.market_segment
 	so = frappe.get_doc(
 		{
 			"doctype": "Sales Order",
@@ -192,6 +200,7 @@ def _create_order(order: UnicommerceOrder, customer) -> None:
 			"company_address": company_address,
 			"dispatch_address_name": dispatch_address,
 			"currency": order.get("currencyCode"),
+			"market_segment" = market_segment
 		}
 	)
 
