@@ -198,3 +198,13 @@ before_tests = "ecommerce_integrations.utils.before_test.before_tests"
 # 		"doctype": "{doctype_4}"
 # 	}
 # ]
+fixtures = [
+	{"dt": "Custom Field", "filters": [
+			[
+				"name", "in", [
+						"Sales Order-market_segment",
+						"Unicommerce Settings-market_segment_mapping"
+					]
+			]
+	]}
+]
