@@ -200,7 +200,7 @@ def _create_order(order: UnicommerceOrder, customer) -> None:
 			"company_address": company_address,
 			"dispatch_address_name": dispatch_address,
 			"currency": order.get("currencyCode"),
-			"market_segment" = market_segment
+			"market_segment": market_segment
 		}
 	)
 
