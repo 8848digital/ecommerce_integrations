@@ -78,9 +78,10 @@ def _get_new_orders(
 			continue
 		order = client.get_sales_order(order_code=order["code"])
 		frappe.log_error("orders", order)
-	if order:
-		frappe.log_error("so",order)
 		yield order
+	#if order:
+		#frappe.log_error("so",order)
+		#yield order
 
 
 def _create_sales_invoices(unicommerce_order, sales_order, client: UnicommerceAPIClient):
