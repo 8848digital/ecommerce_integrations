@@ -46,13 +46,11 @@ def sync_new_orders(client: UnicommerceAPIClient = None, force=False):
 
 	status = "COMPLETE" if settings.only_sync_completed_orders else None
 	new_orders = _get_new_orders(client, status=status)
-	frappe.log_error("new_orders", new_orders)
 	if new_orders is None:
 		return
 
 	for order in new_orders:
 		sales_order = create_order(order, client=client)
-		frappe.log_error("Sales Order", sales_order)
 		if settings.only_sync_completed_orders:
 			_create_sales_invoices(order, sales_order, client)
 
@@ -64,7 +62,6 @@ def _get_new_orders(
 	"""Search new sales order from unicommerce."""
 	updated_since = 24 * 60  # minutes
 	uni_orders = client.search_sales_order(updated_since=updated_since, status=status)
-	frappe.log_error("uni_orders", uni_orders)
 	configured_channels = {
 		c.channel_id
 		for c in frappe.get_all("Unicommerce Channel", filters={"enabled": 1}, fields="channel_id")
@@ -77,11 +74,8 @@ def _get_new_orders(
 		if frappe.db.exists("Sales Order", {ORDER_CODE_FIELD: order["code"]}):
 			continue
 		order = client.get_sales_order(order_code=order["code"])
-		frappe.log_error("orders", order)
+	if order:
 		yield order
-	#if order:
-		#frappe.log_error("so",order)
-		#yield order
 
 
 def _create_sales_invoices(unicommerce_order, sales_order, client: UnicommerceAPIClient):
@@ -166,7 +160,6 @@ def _sync_order_items(order: UnicommerceOrder, client: UnicommerceAPIClient) -> 
 
 
 def _create_order(order: UnicommerceOrder, customer) -> None:
-
 	channel_config = frappe.get_doc("Unicommerce Channel", order["channel"])
 	settings = frappe.get_cached_doc(SETTINGS_DOCTYPE)
 
