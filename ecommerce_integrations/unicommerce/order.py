@@ -51,6 +51,7 @@ def sync_new_orders(client: UnicommerceAPIClient = None, force=False):
 
 	for order in new_orders:
 		sales_order = create_order(order, client=client)
+		frappe.log_error("Sales Order", sales_order)
 		if settings.only_sync_completed_orders:
 			_create_sales_invoices(order, sales_order, client)
 
@@ -169,15 +170,6 @@ def _create_order(order: UnicommerceOrder, customer) -> None:
 
 	facility_code = _get_facility_code(order["saleOrderItems"])
 	company_address, dispatch_address = settings.get_company_addresses(facility_code)
-	market_segment = ""
-	unicommerce_settings = frappe.get_doc("Unicommerce Settings")
-	for row in unicommerce_settings.market_segment_mapping:
-		if order["customerGSTIN"]:
-			if row.gst_category == "Registered Regular":
-				market_segment = row.market_segment
-		else:
-			if row.gst_category == "Unregistered":
-				market_segment = row.market_segment
 	so = frappe.get_doc(
 		{
 			"doctype": "Sales Order",
@@ -199,19 +191,11 @@ def _create_order(order: UnicommerceOrder, customer) -> None:
 			"tax_category": get_dummy_tax_category(),
 			"company_address": company_address,
 			"dispatch_address_name": dispatch_address,
-			"currency": order.get("currencyCode"),
-			"market_segment": market_segment
+			"currency": order.get("currencyCode")
 		}
 	)
 
 	so.flags.raw_data = order
-	so.save()
-	if order["customerGSTIN"]:
-		if so.customer_address:
-			address = frappe.get_doc("Address", so.customer_address)
-			address.gstin = order["customerGSTIN"]
-			address.gst_category = "Registered Regular"
-			address.save()
 	so.save()
 	so.submit()
 
