@@ -63,6 +63,7 @@ def _get_new_orders(
 	"""Search new sales order from unicommerce."""
 	updated_since = 24 * 60  # minutes
 	uni_orders = client.search_sales_order(updated_since=updated_since, status=status)
+	frappe.log_error("uni_orders", uni_orders)
 	configured_channels = {
 		c.channel_id
 		for c in frappe.get_all("Unicommerce Channel", filters={"enabled": 1}, fields="channel_id")
