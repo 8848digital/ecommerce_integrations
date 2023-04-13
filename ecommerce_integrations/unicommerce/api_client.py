@@ -152,6 +152,7 @@ class UnicommerceAPIClient:
 		search_results, status = self.request(
 			endpoint="/services/rest/v1/oms/saleOrder/search", body=body
 		)
+		frappe.log_error("search_result", search_result)
 		if status and "elements" in search_results:
 			return search_results["elements"]
 
