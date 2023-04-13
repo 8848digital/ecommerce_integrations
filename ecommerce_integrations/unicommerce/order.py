@@ -76,9 +76,8 @@ def _get_new_orders(
 			continue
 		if frappe.db.exists("Sales Order", {ORDER_CODE_FIELD: order["code"]}):
 			continue
-		else:
-			order = client.get_sales_order(order_code=order["code"])
-			frappe.log_error("order", order)
+		order = client.get_sales_order(order_code=order["code"])
+		frappe.log_error("order", order)
 	if order:
 		yield order
 
