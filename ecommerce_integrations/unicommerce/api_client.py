@@ -120,6 +120,7 @@ class UnicommerceAPIClient:
 		order, status = self.request(
 			endpoint="/services/rest/v1/oms/saleorder/get", body={"code": order_code}
 		)
+		frappe.log_error("Order", order)
 		if status and "saleOrderDTO" in order:
 			return order["saleOrderDTO"]
 
