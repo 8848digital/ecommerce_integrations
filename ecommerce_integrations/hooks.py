@@ -116,8 +116,8 @@ doc_events = {
 	},
 	"Item Price": {"on_change": "ecommerce_integrations.utils.price_list.discard_item_prices"},
 	"Sales Invoice":{
-		"on_submit":"ecommerce_integrations.unicommerce_doc_events.sales_invoice.on_submit",
-		"on_cancel":"ecommerce_integrations.unicommerce_doc_events.sales_invoice.on_cancel"
+		"on_submit":"ecommerce_integrations.unicommerce.doc_events.sales_invoice.on_submit",
+		"on_cancel":"ecommerce_integrations.unicommerce.doc_events.sales_invoice.on_cancel"
 	},
 }
 
