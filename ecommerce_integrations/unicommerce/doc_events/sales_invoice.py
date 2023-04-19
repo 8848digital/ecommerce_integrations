@@ -33,7 +33,7 @@ def on_submit(self, method = None):
 			if not i.sales_invoice:
 				is_invoice_generated = 0
 				break;
- 		if is_invoice_generated :
+		if is_invoice_generated :
 			frappe.db.set_value("Pick List",pl.parent,"workflow_state","Invoice Generated")
 
 
