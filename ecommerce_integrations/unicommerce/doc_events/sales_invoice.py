@@ -19,7 +19,7 @@ def on_submit(self, method = None):
 			continue
 		if attached_docs:
 			frappe.db.set_value("Pick List Sales Order Details", pl.name, {
-					"sales_invoice": self..name,
+					"sales_invoice": self.name,
 					"invoice_url":attached_docs[0].file_name,
 					# "label_url":attached_docs[1].file_name,
 					"invoice_pdf":url[0].file_url,
