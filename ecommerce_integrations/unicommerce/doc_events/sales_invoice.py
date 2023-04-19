@@ -2,15 +2,15 @@ import frappe
 
 @frappe.whitelist()
 def on_submit(self, method = None):
-	sales_order = doc.get('items')[0].sales_order
+	sales_order = self.get('items')[0].sales_order
 	attached_docs = frappe.get_all("File",
 			fields=['file_name'],
-			filters={'attached_to_name':doc.name,'file_name': ('like', 'unicommerce%')},
+			filters={'attached_to_name':self.name,'file_name': ('like', 'unicommerce%')},
 			order_by="file_name"
 	)
 	url = frappe.get_all("File",
 		fields=['file_url'],
-		filters={'attached_to_name':doc.name,'file_name': ('like', 'unicommerce%')},
+		filters={'attached_to_name':self.name,'file_name': ('like', 'unicommerce%')},
 		order_by="file_name"
 	)
 	pi_so = frappe.get_all("Pick List Sales Order Details",fields = ['name','parent'], filters = [{'sales_order' : sales_order,"docstatus" : 0}])
@@ -19,7 +19,7 @@ def on_submit(self, method = None):
 			continue
 		if attached_docs:
 			frappe.db.set_value("Pick List Sales Order Details", pl.name, {
-					"sales_invoice": doc.name,
+					"sales_invoice": self..name,
 					"invoice_url":attached_docs[0].file_name,
 					# "label_url":attached_docs[1].file_name,
 					"invoice_pdf":url[0].file_url,
@@ -39,6 +39,6 @@ def on_submit(self, method = None):
 
 @frappe.whitelist()
 def on_cancel(self, method = None):
-	results = frappe.db.get_all("Pick List Sales Order Details", filters={"sales_invoice": doc.name, "docstatus": 1})
+	results = frappe.db.get_all("Pick List Sales Order Details", filters={"sales_invoice": self.name, "docstatus": 1})
 	if results:
-		doc.flags.ignore_links = True
+		self.flags.ignore_links = True
