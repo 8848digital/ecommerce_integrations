@@ -120,7 +120,7 @@ doc_events = {
 		"on_cancel":"ecommerce_integrations.unicommerce.invoice.on_cancel"
 	},
 	"Pick List":{
-		"validate":"ecommerce_integrations.unicommerce.doc_events.pick_list.validate",
+		"validate":"ecommerce_integrations.unicommerce.pick_list.validate",
 	}
 }
 
