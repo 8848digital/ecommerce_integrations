@@ -37,7 +37,7 @@ doctype_js = {
 	"Sales Invoice": "public/js/unicommerce/sales_invoice.js",
 	"Item": "public/js/unicommerce/item.js",
 	"Stock Entry": "public/js/unicommerce/stock_entry.js",
-	#"Pick List": "public/js/unicommerce/pick_list.js",
+	"Pick List": "public/js/unicommerce/pick_list.js",
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
