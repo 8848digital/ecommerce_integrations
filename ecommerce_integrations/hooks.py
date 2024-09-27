@@ -33,10 +33,17 @@ app_license = "GNU GPL v3.0"
 # include js in doctype views
 doctype_js = {
 	"Shopify Settings": "public/js/shopify/old_settings.js",
-	"Sales Order": "public/js/unicommerce/sales_order.js",
-	"Sales Invoice": "public/js/unicommerce/sales_invoice.js",
+	"Sales Order": [
+		"public/js/unicommerce/sales_order.js",
+		"public/js/common/ecommerce_transactions.js",
+	],
+	"Sales Invoice": [
+		"public/js/unicommerce/sales_invoice.js",
+		"public/js/common/ecommerce_transactions.js",
+	],
 	"Item": "public/js/unicommerce/item.js",
 	"Stock Entry": "public/js/unicommerce/stock_entry.js",
+	"Pick List": "public/js/unicommerce/pick_list.js",
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -64,6 +71,9 @@ doctype_js = {
 
 # before_install = "ecommerce_integrations.install.before_install"
 # after_install = "ecommerce_integrations.install.after_install"
+
+
+before_uninstall = "ecommerce_integrations.uninstall.before_uninstall"
 
 # Desk Notifications
 # ------------------
@@ -114,6 +124,11 @@ doc_events = {
 		"on_cancel": "ecommerce_integrations.unicommerce.grn.prevent_grn_cancel",
 	},
 	"Item Price": {"on_change": "ecommerce_integrations.utils.price_list.discard_item_prices"},
+	"Pick List": {"validate": "ecommerce_integrations.unicommerce.pick_list.validate"},
+	"Sales Invoice": {
+		"on_submit": "ecommerce_integrations.unicommerce.invoice.on_submit",
+		"on_cancel": "ecommerce_integrations.unicommerce.invoice.on_cancel",
+	},
 }
 
 # Scheduled Tasks
@@ -142,6 +157,7 @@ scheduler_events = {
 		"*/5 * * * *": [
 			"ecommerce_integrations.unicommerce.order.sync_new_orders",
 			"ecommerce_integrations.unicommerce.inventory.update_inventory_on_unicommerce",
+			"ecommerce_integrations.unicommerce.delivery_note.prepare_delivery_note",
 		],
 	},
 }
@@ -197,3 +213,8 @@ before_tests = "ecommerce_integrations.utils.before_test.before_tests"
 # 		"doctype": "{doctype_4}"
 # 	}
 # ]
+
+
+default_log_clearing_doctypes = {
+	"Ecommerce Integration Log": 120,
+}
